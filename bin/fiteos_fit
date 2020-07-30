@@ -1,0 +1,71 @@
+#! /usr/bin/env python
+""" Fit equation to data.
+"""
+
+import argparse
+import matplotlib.pyplot as plt
+import numpy
+from fiteos import equations
+from fiteos import io
+from fiteos import solver
+
+# parse command line
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("--input-file", default="data.csv")
+parser.add_argument("--output-fit-file")
+parser.add_argument("--output-ff-file")
+parser.add_argument("--output-ellipses-file")
+parser.add_argument("--eos", choices=equations.equations.keys(), default="bm3")
+parser.add_argument("--parameters", nargs="+")
+parser.add_argument("--confidence-interval", type=float, default=0.95)
+opts = parser.parse_args()
+
+# set random seed
+numpy.random.seed(0)
+
+# equation to minimize
+eqn = equations.equations[opts.eos]()
+
+# read pressure and volume data
+x, sigma_x, y, sigma_y = io.read_csv(
+                opts.input_file,
+                x=eqn.x_name, sigma_x="sigma_{}".format(eqn.x_name),
+                y=eqn.y_name, sigma_y="sigma_{}".format(eqn.y_name))
+
+# initialize solver
+s = solver.Solver(x=x, y=y, sigma_x=sigma_x, sigma_y=sigma_y, equation=eqn)
+
+# initial parameters, minimums, maximums, and varying flag
+for opt in opts.parameters:
+    key = opt.split(":")[0]
+    vals = opt.split(":")[1:]
+    if key not in eqn.parameter_names:
+        raise KeyError("{} not in {} variables!".format(key, eqn.name))
+    for i, val in enumerate(vals):
+        if val == "None":
+            vals[i] = None
+        elif val == "True":
+            vals[i] = True
+        elif val == "False":
+            vals[i] = False
+        elif vals[i].isdigit():
+            vals[i] = int(val)
+        else:
+            try:
+                vals[i] = float(val)
+            except ValueError:
+                pass
+    s.set_parameter(key, value=vals[0], low=vals[1], high=vals[2], vary=vals[3])
+
+# optimize
+s.minimize(method="Nedler")
+s.minimize(method="leastsq")
+
+# plot
+s.plot(**{"confidence_interval" : opts.confidence_interval,
+          "output_fit_file" : opts.output_fit_file,
+          "output_ff_file" : opts.output_ff_file,
+          "output_ellipses_file" : opts.output_ellipses_file})
+
+# display
+plt.show()

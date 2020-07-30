@@ -64,8 +64,7 @@ if __name__ == "__main__":
     '''
     
     # replace directory string with appropriate path to .PVE files
-    directory = '/Users/johnlazarz/python/scripts/mesoscale-eos'
+    directory = '/Users/cmbiwer/data/eos/'
 
     files = get_files(directory)
     parameters_dict = create_param_dict(files)
-    print(parameters_dict)
