@@ -1,3 +1,7 @@
 __pycache__/
-*.csv
+build/
+dist/
+*.egg-info/
 *.PVE
+*.csv
+*.pyc

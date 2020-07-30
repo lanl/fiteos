@@ -650,7 +650,7 @@ def main(directory,sample,fit_options):
     fit_lattice_params = fit_options[7]
 
     parameters_dict = retrieve_data(directory)
-    
+
     # get volumes and lattice parameters
     volumes = []
     a = []
@@ -682,18 +682,31 @@ def main(directory,sample,fit_options):
     print(np.max(c[:,0]))
 
     #Pressures in GPa
-    pressures = np.array([[5.34,0.0534],\
-                         [5.78,0.0578],\
-                         [6.43,0.0643],\
-                         [6.93,0.0693],\
-                         [7.3,0.073],\
-                         [7.93,0.0793],\
-                         [9.5,0.095],\
-                         [10.437,0.10437],\
-                         [17.0,0.17],\
-                         [24.35,0.2435],\
-                         [30.091,0.30091],\
-                         [35.493,0.35493]])
+#    pressures = np.array([[5.34,0.0534],\
+#                         [5.78,0.0578],\
+#                         [6.43,0.0643],\
+#                         [6.93,0.0693],\
+#                         [7.3,0.073],\
+#                         [7.93,0.0793],\
+#                         [9.5,0.095],\
+#                         [10.437,0.10437],\
+#                         [17.0,0.17],\
+#                         [24.35,0.2435],\
+#                         [30.091,0.30091],\
+#                         [35.493,0.35493]])
+    pressures = np.array([[9.5,0.1],\
+                         [10.4,0.1],\
+                         [17.0,0.2],\
+                         [24.4,0.2],\
+                         [30.1,0.3],\
+                         [35.5,0.7],
+                         [5.34,0.1],
+                         [5.78,0.1],\
+                         [6.43,0.1],\
+                         [6.93,0.1],\
+                         [7.3,0.1],\
+                         [7.93,0.2]])
+#                         [50.2,0.9]])
     
     labels = ['Pressures','sigP','Volumes','sigV']
     data = pd.DataFrame(np.column_stack((pressures,volumes)),columns=labels)
@@ -760,7 +773,7 @@ if __name__ == "__main__":
     '''
     
     # replace directory string with appropriate path to .PVE files
-    directory = '.' #/Users/johnlazarz/Desktop/mesoscale_eos'
+    directory = '/Users/cmbiwer/data/eos'
     
     #assign a sample name
     sample = '$Mg_2Si_2O_6\ -\ C2/c$'
