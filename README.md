@@ -6,7 +6,7 @@ A Python package for fitting equations. In particular, this package was written 
 
 To install from ``pip`` do
 ```
-python -m pip install git+ssh://git@gitlab.lanl.gov/cmbiwer/fiteos.git
+python -m pip install git+https://github.com/lanl/fiteos
 ```
 
 To install from source do
