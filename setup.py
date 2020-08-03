@@ -44,7 +44,7 @@ _install.install._called_from_setup = do_setup
 # meta-data about the package
 project_name = "fiteos"
 project_version = "0.0.dev0"
-project_url = "https://gitlab.lanl.gov/cmbiwer/fiteos"
+project_url = "https://github.com/lanl/fiteos"
 project_description = "Equation of state fitting"
 project_keywords = ["EOS", "equation of state"]
 
